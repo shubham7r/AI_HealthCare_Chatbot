@@ -25,8 +25,8 @@ const NavLinks = () => {
         <Link to="/contact" className="hover:text-blue-400 transition">
           Contact
         </Link>
-        <Link to="/dashboard" className="hover:text-blue-400 transition">
-          Dashboard
+        <Link to="/dashboards" className="hover:text-blue-400 transition">
+          Dashboards
         </Link>
 
         {/* Company Hover Dropdown */}

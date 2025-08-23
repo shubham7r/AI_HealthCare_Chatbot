@@ -3,8 +3,20 @@ import React, { useState } from "react";
 const TableOfContents = () => {
   const sections = [
     {
-      title: "How Does WhatsApp Chatbot Improve Customer Support?",
-      content: `WhatsApp bots can engage with customers in personalized conversations. They enhance long-term retention by offering product updates, recommendations, and timely communication.`,
+      title: "How Does  Chatbot Improve Customer Support?",
+      content: `Our chatbot isn’t just a digital assistant — it’s a virtual healthcare concierge:
+
+Faster Query Resolution – Cuts waiting times by instantly answering FAQs and symptom-related questions.
+
+Omnichannel Support – Works seamlessly across websites, mobile apps, and messaging platforms.
+
+Reduced Workload for Staff – Allows healthcare professionals to focus on critical cases while routine queries are automated.
+
+Improved Patient Satisfaction – A quick, accurate, and empathetic response builds trust and loyalty.
+
+Data-Driven Insights – Analyzes patient interactions to help improve services and identify emerging needs.
+
+Result: Better healthcare experiences, happier patients, and more efficient hospital operations.`,
     },
     {
       title: "What are the Use Cases of WhatsApp Chatbot?",

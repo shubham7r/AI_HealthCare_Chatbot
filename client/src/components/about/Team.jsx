@@ -5,7 +5,7 @@ const teamMembers = [
     name: "Shubham Shelke (Shubham)",
     title: "Co-Founder & CEO",
     image:
-      "https://sdmntprukwest.oaiusercontent.com/files/00000000-132c-6243-a52f-b35bd0b7c52a/raw?se=2025-08-06T14%3A01%3A07Z&sp=r&sv=2024-08-04&sr=b&scid=90f96ece-9554-5c2a-b820-4b22c3d693b3&skoid=e9d2f8b1-028a-4cff-8eb1-d0e66fbefcca&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-06T01%3A53%3A23Z&ske=2025-08-07T01%3A53%3A23Z&sks=b&skv=2024-08-04&sig=74s9wnJWjHC3dIIJue6ww22luHuEjGE35/Ahx1CPUZM%3D",
+      "https://chatgpt.com/backend-api/estuary/content?id=file-5TgDVC8WfsqZuCgmrXwVTA&ts=487397&p=fs&cid=1&sig=800eebf5b589354a496684f618adb2b178cab7492c3555b26a361225b9d70bcf",
     linkedin: "https://www.linkedin.com/in/shubhamshelke7/",
     bio: `Shubham is a technology entrepreneur, and the co-founder of AI HEALTHCARE, the leading Connected Conversation Platform...`,
   },

@@ -29,8 +29,10 @@ const HeroSection = () => {
           {/* Left: Text Content */}
           <div className="md:w-1/2 space-y-6">
             <h1 className="text-3xl md:text-4xl font-bold leading-tight text-gray-900">
-              Top 10 Healthcare Chatbots{" "}
-              <span className="text-purple-600">You Should Know in 2025</span>
+              AI Healthcare Chatbots{" "}
+              <span className="text-purple-600">
+                Instant Medical Help, Anytime, Anywhere.
+              </span>
             </h1>
 
             <div className="text-gray-800 space-y-2">
@@ -84,7 +86,7 @@ const HeroSection = () => {
 
       {/* Project Info Paragraph */}
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4 text-center">
-        Why Healthcare Chatbots Are Revolutionizing Patient Care in 2025
+        Why Healthcare Chatbots Are Transforming Patient Care in 2025
       </h2>
       <div className="mt-4 text-gray-700 text-base leading-relaxed px-6 md:px-5 max-w-7xl mx-auto">
         Our AI-powered healthcare chatbot comparison highlights the most

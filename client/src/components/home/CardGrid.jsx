@@ -20,35 +20,41 @@ const cardsData = [
   {
     title: "AI Healthcare #3",
     image:
-      "https://www.analyticsinsight.net/wp-content/uploads/2021/09/AI-in-Healthcare-1.jpg",
+      "https://th.bing.com/th/id/OIP.u9mnYKqVIIujzUcHy7E9JQAAAA?w=328&h=133&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
     description:
       "AI is transforming health records into actionable insights using big data.",
   },
   {
     title: "AI Healthcare #4",
     image:
-      "https://builtin.com/sites/www.builtin.com/files/styles/ckeditor_optimize/public/inline-images/chatbot%20in%20healthcare.jpg",
+      "https://th.bing.com/th/id/OIP.-n2cusDHIFtXLCAstwKbrgHaFE?w=257&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
     description:
       "Learn how virtual assistants are helping patients book appointments and access care.",
   },
   {
     title: "AI Healthcare #5",
     image:
-      "https://cdn.analyticsvidhya.com/wp-content/uploads/2022/03/healthcare-ai.jpg",
+      "https://th.bing.com/th/id/OIP.53qsBS26TvKmlHxI4FhJ9QHaEK?w=293&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
     description:
       "Chatbots can triage symptoms, guide treatments, and offer mental health support.",
   },
   {
     title: "AI Healthcare #6",
-    image:
-      "https://research.aimultiple.com/wp-content/uploads/2023/02/Healthcare-chatbot.png",
+    image: "https://apifriends.com/wp-content/uploads/2017/10/chatbot.png",
     description:
       "Discover AI’s role in remote patient monitoring and personalized medicine.",
   },
 ];
 
+// Wrapper to add styles before passing to carousel
 const CardGrid = () => {
-  return <CardCarousel cards={cardsData} />;
+  const styledCards = cardsData.map((card) => ({
+    ...card,
+    className:
+      "bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 cursor-pointer p-4",
+  }));
+
+  return <CardCarousel cards={styledCards} />;
 };
 
 export default CardGrid;

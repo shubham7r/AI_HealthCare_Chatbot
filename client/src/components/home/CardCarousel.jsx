@@ -30,7 +30,8 @@ const CardCarousel = ({ cards }) => {
       >
         {cards.map((card, index) => (
           <SwiperSlide key={index}>
-            <div className="bg-white shadow-xl p-6 rounded-2xl transition-all hover:scale-105 hover:shadow-2xl">
+            <div className="bg-pink-100
+             shadow-md p-6 rounded-2xl transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer">
               <img
                 src={card.image}
                 alt={card.title}

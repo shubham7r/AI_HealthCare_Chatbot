@@ -13,12 +13,11 @@ import AboutPage from "./components/about/AboutPage";
 import Aboutus from "./components/about/Aboutus";
 import CardSection from "./components/about/CardSection";
 import Team from "./components/about/Team";
-import DashboardPage from "./components/Dashboard/DashboardPage";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Sidebar from "./components/Dashboard/Sidebar";
+import DashboardsPage from "./components/dashboards/DashboardsPage"; // ✅ DashboardsPage is inside the Dashboard folder
+import Sidebars from "./components/dashboards/Sidebars"; // ✅ Sidebars is inside
+import Promt from "./components/dashboards/Promt"; // ✅ Promt is inside the Dashboard folder 
+import AuthModal from "./components/AuthModal"; // ✅ AuthModal is not inside the Dashboard folder
 
-import ChatInputBar from "./components/Dashboard/ChatInputBar";
-import ChatBubble from "./components/Dashboard/ChatBubble";
 import LoginModal from "./components/LoginModal"; // ✅ LoginModal is not inside the Dashboard folder
 
 
@@ -43,13 +42,11 @@ function App() {
             <Route path="/aboutus" element={<Aboutus />} />
             <Route path="/card-section" element={<CardSection />} />
             <Route path="/team" element={<Team />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/dashboard-content" element={<Dashboard />} />
-            <Route path="/sidebar" element={<Sidebar />} />
-            
-            <Route path="/chat-input-bar" element={<ChatInputBar />} />
-            <Route path="/chat-bubble" element={<ChatBubble />} />
+            <Route path="/dashboards" element={<DashboardsPage />} />
+            <Route path="/auth-modal" element={<AuthModal />} />
+            <Route path="/sidebars" element={<Sidebars />} />
             <Route path="/login-modal" element={<LoginModal />} />
+            <Route path="/promt" element={<Promt />} />
           </Routes>
         </main>
       </div>

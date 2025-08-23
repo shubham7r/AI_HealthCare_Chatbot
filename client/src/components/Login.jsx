@@ -1,18 +1,36 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const res = await axios.post(
+        "http://localhost:4001/api/user/login",
+        formData,
+        {
+          withCredentials: true, // ✅ So JWT is stored in cookies
+        }
+      );
+
+      alert("Login Successful");
       navigate("/home");
-    }, 2000);
+    } catch (error) {
+      alert(error.response?.data?.errors || "Invalid Credentials");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -23,11 +41,13 @@ const Login = () => {
         </h1>
 
         <form onSubmit={handleLogin} className="space-y-5">
-          {/* Email */}
           <div>
             <label className="block mb-1 text-white/80 text-sm">Email</label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
               placeholder="Enter your email"
               disabled={loading}
@@ -35,11 +55,13 @@ const Login = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block mb-1 text-white/80 text-sm">Password</label>
             <input
               type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               required
               placeholder="Enter your password"
               disabled={loading}
@@ -47,22 +69,6 @@ const Login = () => {
             />
           </div>
 
-          {/* Options */}
-          <div className="flex items-center justify-between text-white/80 text-sm">
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="accent-purple-500"
-                disabled={loading}
-              />
-              Remember me
-            </label>
-            <a href="#" className="hover:underline">
-              Forgot password?
-            </a>
-          </div>
-
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -74,12 +80,14 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Footer */}
         <p className="text-center text-sm text-white/90">
           Don’t have an account?{" "}
-          <a href="#" className="font-semibold underline hover:text-purple-200">
+          <button
+            onClick={() => navigate("/register")}
+            className="font-semibold underline hover:text-purple-200 cursor-pointer"
+          >
             Register
-          </a>
+          </button>
         </p>
       </div>
     </div>
