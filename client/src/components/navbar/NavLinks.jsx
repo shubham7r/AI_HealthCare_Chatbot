@@ -2,6 +2,22 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const NavLinks = () => {
+  // Hospital categories
+  const hospitalCategories = [
+    "Ayurveda",
+    "Bones",
+    "Mental Health",
+    "Dermatology",
+    "Cardiology",
+    "Neurology",
+    "Pediatrics",
+    "Gynecology",
+    "ENT",
+    "Dental",
+    "Orthopedics",
+    "General Medicine",
+  ];
+
   return (
     <>
       {/* Logo */}
@@ -33,7 +49,7 @@ const NavLinks = () => {
         <div className="relative group">
           <button className="hover:text-blue-400 transition">Company</button>
           <div className="absolute top-full mt-2 w-44 bg-white text-black rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 z-20">
-            <Link 
+            <Link
               to="/about"
               className="block px-4 py-2 hover:bg-gray-100 transition w-full text-left"
             >
@@ -51,6 +67,22 @@ const NavLinks = () => {
             >
               Career
             </Link>
+          </div>
+        </div>
+
+        {/* Hospitals Hover Dropdown */}
+        <div className="relative group">
+          <button className="hover:text-blue-400 transition">Hospitals</button>
+          <div className="absolute top-full mt-2 w-48 max-h-64 overflow-y-auto bg-white text-black rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 z-20">
+            {hospitalCategories.map((category, index) => (
+              <Link
+                key={index}
+                to={`/hospitals/${category.toLowerCase().replace(/\s+/g, "-")}`}
+                className="block px-4 py-2 hover:bg-gray-100 transition w-full text-left"
+              >
+                {category}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

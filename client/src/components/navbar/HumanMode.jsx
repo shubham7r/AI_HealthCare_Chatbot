@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaMoon } from "react-icons/fa";
+import Login from "../Login"; // Correct relative path
 
 const HumanMode = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const openLogin = () => setIsLoginOpen(true);
+  const closeLogin = () => setIsLoginOpen(false);
+
   return (
     <div className="flex items-center gap-4 relative">
       {/* Theme Toggle */}
@@ -27,9 +33,15 @@ const HumanMode = () => {
       </div>
 
       {/* Login Button */}
-      <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition ease-in-out cursor-pointer">
+      <button
+        onClick={openLogin} // Open login modal
+        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition ease-in-out cursor-pointer"
+      >
         Login
       </button>
+
+      {/* Login Modal */}
+      {isLoginOpen && <Login closeLogin={closeLogin} />}
     </div>
   );
 };
