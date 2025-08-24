@@ -25,7 +25,7 @@ const Login = () => {
       );
 
       alert("Login Successful");
-      navigate("/home");
+      navigate("/Dashboards");
     } catch (error) {
       alert(error.response?.data?.errors || "Invalid Credentials");
     } finally {

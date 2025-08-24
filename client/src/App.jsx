@@ -47,6 +47,7 @@ function App() {
             <Route path="/sidebars" element={<Sidebars />} />
             <Route path="/login-modal" element={<LoginModal />} />
             <Route path="/promt" element={<Promt />} />
+           
           </Routes>
         </main>
       </div>

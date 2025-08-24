@@ -1,8 +1,10 @@
+// middleware/authMiddleware.js (Create this file)
 import jwt from "jsonwebtoken";
+import config from "../config.js";
 
 export const verifyToken = (req, res, next) => {
   try {
-    const token = req.cookies.token; // ✅ Read token from cookie
+    const token = req.cookies.jwt; // ✅ Read token from cookie
 
     if (!token) {
       return res
@@ -10,8 +12,8 @@ export const verifyToken = (req, res, next) => {
         .json({ message: "Access denied. No token provided." });
     }
 
-    // ✅ Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // ✅ Verify token using the same secret as in login
+    const decoded = jwt.verify(token, config.JWT_USER_PASSWORD);
 
     req.userId = decoded.id; // ✅ Attach user ID to request
     next();
