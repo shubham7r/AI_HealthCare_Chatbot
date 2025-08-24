@@ -17,7 +17,7 @@ import DashboardsPage from "./components/dashboards/DashboardsPage"; // ✅ Dash
 import Sidebars from "./components/dashboards/Sidebars"; // ✅ Sidebars is inside
 import Promt from "./components/dashboards/Promt"; // ✅ Promt is inside the Dashboard folder 
 import AuthModal from "./components/AuthModal"; // ✅ AuthModal is not inside the Dashboard folder
-
+import GeneralMedicine from "./hospitalpage/GeneralMedicine";
 import LoginModal from "./components/LoginModal"; // ✅ LoginModal is not inside the Dashboard folder
 
 
@@ -38,6 +38,10 @@ function App() {
             <Route path="/hero-section" element={<HeroSection />} />
             <Route path="/nav-links" element={<NavLinks />} />
             <Route path="/user-controls" element={<HumanMode />} />
+            <Route
+              path="/hospitals/general-medicine"
+              element={<GeneralMedicine />}
+            />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/aboutus" element={<Aboutus />} />
             <Route path="/card-section" element={<CardSection />} />
@@ -47,7 +51,6 @@ function App() {
             <Route path="/sidebars" element={<Sidebars />} />
             <Route path="/login-modal" element={<LoginModal />} />
             <Route path="/promt" element={<Promt />} />
-           
           </Routes>
         </main>
       </div>
