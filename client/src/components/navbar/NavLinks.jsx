@@ -45,30 +45,7 @@ const NavLinks = () => {
           Dashboards
         </Link>
 
-        {/* Company Hover Dropdown */}
-        <div className="relative group">
-          <button className="hover:text-blue-400 transition">Company</button>
-          <div className="absolute top-full mt-2 w-44 bg-white text-black rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 z-20">
-            <Link
-              to="/about"
-              className="block px-4 py-2 hover:bg-gray-100 transition w-full text-left"
-            >
-              About Us
-            </Link>
-            <Link
-              to="/contact"
-              className="block px-4 py-2 hover:bg-gray-100 transition w-full text-left"
-            >
-              Contact
-            </Link>
-            <Link
-              to="/careers"
-              className="block px-4 py-2 hover:bg-gray-100 transition w-full text-left"
-            >
-              Career
-            </Link>
-          </div>
-        </div>
+      
 
         {/* Hospitals Hover Dropdown */}
         <div className="relative group">
