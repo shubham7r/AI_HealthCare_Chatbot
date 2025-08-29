@@ -19,20 +19,20 @@ Data-Driven Insights – Analyzes patient interactions to help improve services 
 Result: Better healthcare experiences, happier patients, and more efficient hospital operations.`,
     },
     {
-      title: "What are the Use Cases of WhatsApp Chatbot?",
-      content: `WhatsApp chatbots are used in customer service, order tracking, appointment booking, and lead generation. Businesses can automate FAQs and provide 24/7 support.`,
+      title: "What are the Use Cases of  Chatbot?",
+      content: `Chatbots are used in customer service, order tracking, appointment booking, and lead generation. Businesses can automate FAQs and provide 24/7 support.`,
     },
     {
       title: "What are the Challenges, and How Can They be Mitigated?",
       content: `Some challenges include integration complexity, maintaining human-like conversations, and data privacy. These can be mitigated through AI enhancements and compliance frameworks.`,
     },
     {
-      title: "How to Get Started with WhatsApp Chatbot?",
+      title: "How to Get Started with  Chatbot?",
       content: `Start by identifying your business goal, choose a platform like Twilio or Exotel, build conversational flows, and test thoroughly before going live.`,
     },
     {
       title: "How Can Exotel Transform Your Business?",
-      content: `Exotel provides scalable, reliable WhatsApp API integration with advanced analytics, voice call support, and CRM integrations to streamline customer communication.`,
+      content: `Exotel provides scalable, reliable  API integration with advanced analytics, voice call support, and CRM integrations to streamline customer communication.`,
     },
   ];
 
