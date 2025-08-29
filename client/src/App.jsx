@@ -19,6 +19,7 @@ import Promt from "./components/dashboards/Promt"; // ✅ Promt is inside the Da
 import AuthModal from "./components/AuthModal"; // ✅ AuthModal is not inside the Dashboard folder
 import GeneralMedicine from "./hospitalpage/GeneralMedicine";
 import LoginModal from "./components/LoginModal"; // ✅ LoginModal is not inside the Dashboard folder
+import  Contact from "./components/Contact";
 
 
 // ✅ Sidebar is not inside the Dashboard folder
@@ -51,6 +52,7 @@ function App() {
             <Route path="/sidebars" element={<Sidebars />} />
             <Route path="/login-modal" element={<LoginModal />} />
             <Route path="/promt" element={<Promt />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
       </div>
