@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { X } from "lucide-react"; // ✅ For close icon
 
-const Login = () => {
+const Login = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -19,13 +20,12 @@ const Login = () => {
       const res = await axios.post(
         "http://localhost:4001/api/user/login",
         formData,
-        {
-          withCredentials: true, // ✅ So JWT is stored in cookies
-        }
+        { withCredentials: true }
       );
 
       alert("Login Successful");
       navigate("/Dashboards");
+      if (onClose) onClose(); // ✅ Close modal after success
     } catch (error) {
       alert(error.response?.data?.errors || "Invalid Credentials");
     } finally {
@@ -35,7 +35,15 @@ const Login = () => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center px-4 bg-black/60 z-50">
-      <div className="bg-white/20 backdrop-blur-lg border border-white/30 shadow-2xl rounded-2xl w-full max-w-md p-8 sm:p-10 space-y-6">
+      <div className="bg-white/20 backdrop-blur-lg border border-white/30 shadow-2xl rounded-2xl w-full max-w-md p-8 sm:p-10 space-y-6 relative">
+        {/* ✅ Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white hover:text-red-400 transition "
+        >
+          <X size={24} />
+        </button>
+
         <h1 className="text-3xl font-bold text-center text-white drop-shadow-md">
           Welcome Back 👋
         </h1>
@@ -83,7 +91,10 @@ const Login = () => {
         <p className="text-center text-sm text-white/90">
           Don’t have an account?{" "}
           <button
-            onClick={() => navigate("/register")}
+            onClick={() => {
+              navigate("/register");
+              if (onClose) onClose(); // ✅ Close modal when navigating
+            }}
             className="font-semibold underline hover:text-purple-200 cursor-pointer"
           >
             Register

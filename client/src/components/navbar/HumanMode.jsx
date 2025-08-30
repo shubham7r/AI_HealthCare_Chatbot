@@ -1,18 +1,27 @@
 import React, { useState } from "react";
-import { FaMoon } from "react-icons/fa";
-import Login from "../Login"; // Correct relative path
+import { FaMoon, FaSun } from "react-icons/fa";
+import Login from "../Login";
 
 const HumanMode = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const openLogin = () => setIsLoginOpen(true);
   const closeLogin = () => setIsLoginOpen(false);
 
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle("dark");
+  };
+
   return (
     <div className="flex items-center gap-4 relative">
       {/* Theme Toggle */}
-      <button className="p-2 rounded-full hover:bg-gray-700 transition">
-        <FaMoon />
+      <button
+        onClick={toggleDarkMode}
+        className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition text-gray-800 dark:text-gray-100"
+      >
+        {isDarkMode ? <FaSun /> : <FaMoon />}
       </button>
 
       {/* Avatar Hover Dropdown */}
@@ -22,11 +31,11 @@ const HumanMode = () => {
           alt="User"
           className="w-10 h-10 rounded-full cursor-pointer"
         />
-        <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 z-10">
-          <button className="block px-4 py-2 hover:bg-gray-100 w-full text-left">
+        <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 text-black dark:text-white rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 z-10">
+          <button className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left">
             Human Mode
           </button>
-          <button className="block px-4 py-2 hover:bg-gray-100 w-full text-left">
+          <button className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left">
             Animal Mode
           </button>
         </div>
@@ -34,7 +43,7 @@ const HumanMode = () => {
 
       {/* Login Button */}
       <button
-        onClick={openLogin} // Open login modal
+        onClick={openLogin}
         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition ease-in-out cursor-pointer"
       >
         Login
