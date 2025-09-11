@@ -1,0 +1,12 @@
+# Ignore environment files
+backend/.env
+
+# Ignore Python virtual environments
+venv/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
