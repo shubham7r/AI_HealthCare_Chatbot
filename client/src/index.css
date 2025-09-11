@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+
+/* index.css or tailwind.css */
+/* ...existing code... */
+body {
+  background-color: white; /* Change to a lighter black/gray */
+  color: #fff;
+}
+/* ...existing code... */
