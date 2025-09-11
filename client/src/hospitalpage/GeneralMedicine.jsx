@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Upload, Mic, Square, Trash2 } from "lucide-react";
+import { Upload, Mic, Square, Trash2, Stethoscope } from "lucide-react";
 
 export default function GeneralMedicine() {
   const [audioFile, setAudioFile] = useState(null);
@@ -14,7 +14,7 @@ export default function GeneralMedicine() {
 
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-  // file -> base64
+  // File -> base64
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -112,25 +112,27 @@ export default function GeneralMedicine() {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex flex-col justify-between">
-      <div className="flex flex-col items-center p-4 sm:p-6 flex-grow">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-sky-500">
-          AI Healthcare Chatbot
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col">
+      <header className="bg-gray-800 p-5 text-center shadow-lg">
+        <h1 className="text-3xl font-bold text-sky-400 flex justify-center items-center gap-2">
+          <Stethoscope size={30} /> AI Healthcare Chatbot
         </h1>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full max-w-6xl">
+      <main className="flex-grow p-6">
+        <div className="grid gap-6 md:grid-cols-2 max-w-7xl mx-auto">
           {/* Patient Inputs */}
-          <div className="bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(0,123,255,0.9)] transition duration-300">
-            <h2 className="text-lg sm:text-xl mb-4 font-semibold">
+          <section className="bg-gray-800 rounded-2xl p-6 shadow-lg">
+            <h2 className="text-xl font-semibold mb-5 border-b border-gray-700 pb-2">
               Patient Inputs
             </h2>
 
             {/* Audio Input */}
             <div className="mb-6">
-              <label className="block mb-2 text-sm sm:text-base">
+              <label className="block mb-2 text-sm font-medium">
                 Audio Input
               </label>
-              <div className="flex flex-col sm:flex-row items-center gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 {!recording ? (
                   <button
                     onClick={startRecording}
@@ -148,7 +150,6 @@ export default function GeneralMedicine() {
                 )}
               </div>
 
-              {/* Recorded audio playback */}
               {recordedAudio && (
                 <audio controls className="mt-3 w-full">
                   <source
@@ -162,93 +163,90 @@ export default function GeneralMedicine() {
 
             {/* Image Upload */}
             <div className="mb-6">
-              <label className="block mb-2 text-sm sm:text-base">
+              <label className="block mb-2 text-sm font-medium">
                 Upload Image
               </label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) => setImageFile(e.target.files[0])}
-                className="w-full border border-gray-600 p-2 rounded-lg bg-gray-700 text-sm"
+                className="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 text-sm"
               />
               {imageFile && (
-                <div className="mt-4">
+                <div className="mt-3 flex justify-center">
                   <img
                     src={URL.createObjectURL(imageFile)}
                     alt="Preview"
-                    className="w-32 sm:w-40 h-32 sm:h-40 object-cover rounded-lg border border-gray-600"
+                    className="w-40 h-40 object-cover rounded-xl shadow-md"
                   />
                 </div>
               )}
             </div>
 
-            {/* Text Input */}
+            {/* Symptoms Textarea */}
             <div>
-              <label className="block mb-2 text-sm sm:text-base">
-                Type Symptoms
+              <label className="block mb-2 text-sm font-medium">
+                Describe Symptoms
               </label>
               <textarea
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
                 placeholder="Type your symptoms here..."
-                className="w-full h-24 p-3 rounded-lg bg-gray-700 border border-gray-600 resize-none text-sm"
+                className="w-full h-28 p-3 rounded-xl bg-gray-700 border border-gray-600 resize-none text-sm"
               />
             </div>
-          </div>
+          </section>
 
           {/* AI Diagnosis */}
-          <div className="bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(0,123,255,0.9)] transition duration-300">
-            <h2 className="text-lg sm:text-xl mb-4 font-semibold">
+          <section className="bg-gray-800 rounded-2xl p-6 shadow-lg">
+            <h2 className="text-xl font-semibold mb-5 border-b border-gray-700 pb-2">
               AI Diagnosis
             </h2>
 
-            <div className="mb-4">
-              <label className="block mb-2 text-sm sm:text-base">
+            <div className="mb-5">
+              <label className="block mb-2 text-sm font-medium">
                 Speech to Text
               </label>
               <textarea
                 value={speechText}
                 readOnly
-                className="w-full h-16 p-3 rounded-lg bg-gray-700 border border-gray-600 resize-none text-sm"
+                placeholder="Speech transcription will appear here..."
+                className="w-full h-20 p-3 rounded-xl bg-gray-700 border border-gray-600 resize-none text-sm"
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block mb-2 text-sm sm:text-base">
+            <div>
+              <label className="block mb-2 text-sm font-medium">
                 Doctor's Response
               </label>
-              <textarea
-                value={doctorResponse}
-                readOnly
-                className="w-full h-24 p-3 rounded-lg bg-gray-700 border border-gray-600 resize-none text-sm"
-              />
+              <div className="bg-gray-700 rounded-xl p-4 border border-gray-600 text-sm leading-relaxed">
+                {doctorResponse ||
+                  "The doctor's response will appear here after analysis."}
+              </div>
             </div>
-          </div>
+          </section>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full max-w-6xl justify-center">
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-blue-600 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 w-full sm:w-auto"
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold w-full sm:w-auto"
           >
             {loading ? "Processing..." : "Submit"}
           </button>
           <button
             onClick={handleClear}
-            className="bg-gray-600 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-700 flex items-center gap-2 w-full sm:w-auto justify-center"
+            className="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 w-full sm:w-auto justify-center"
           >
             <Trash2 size={18} /> Clear
           </button>
         </div>
-      </div>
+      </main>
 
-      <footer className="bg-gray-800 text-gray-400 text-center py-4 mt-8">
-        <p className="text-sm sm:text-base">
-          © {new Date().getFullYear()} AI Healthcare Chatbot. All Rights
-          Reserved.
-        </p>
+      <footer className="bg-gray-800 text-gray-400 text-center py-4">
+        © {new Date().getFullYear()} AI Healthcare Chatbot. All Rights Reserved.
       </footer>
     </div>
   );

@@ -3,69 +3,86 @@ import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from groq import Groq
 
-from brain_of_the_doctor import analyze_image_with_query
 from voice_of_the_patient import transcribe_with_groq
+from brain_of_the_doctor import analyze_image_with_query
 
-# Setup logging
+# ---------------------------------------------------
+# Setup
+# ---------------------------------------------------
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
-# Load environment variables
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-# Flask app setup
 app = Flask(__name__)
 CORS(app)
 
-# -------------------------
-# Routes
-# -------------------------
 
+# ---------------------------------------------------
+# Routes
+# ---------------------------------------------------
 @app.route("/api/diagnose", methods=["POST"])
 def diagnose():
+    """
+    Diagnose route:
+    - Accepts JSON (query + image_base64)
+    - or multipart/form-data with query + image_base64
+    """
     try:
-        query_text = None
+        query = None
         image_base64 = None
 
-        # Case 1: multipart/form-data (audio + optional image)
-        if request.files:
-            if "file" in request.files:  # audio
-                audio_file = request.files["file"]
-                logging.info("Received audio file, transcribing...")
-                query_text = transcribe_with_groq(audio_file)
-
-            if "image" in request.files:  # optional image
-                image_base64 = request.form.get("image_base64")
-
-        # Case 2: JSON (text + image)
-        elif request.is_json:
+        if request.is_json:
+            # JSON body
             data = request.get_json()
-            query_text = data.get("query", "")
+            query = data.get("query", "Is there something wrong with my face?")
             image_base64 = data.get("image_base64")
 
-        if not query_text and not image_base64:
-            return jsonify({"error": "No valid input provided"}), 400
+        else:
+            # multipart/form-data
+            if "image_base64" in request.form:
+                query = request.form.get("query", "Is there something wrong with my face?")
+                image_base64 = request.form.get("image_base64")
 
-        logging.info(f"Final query: {query_text}")
+        if not image_base64:
+            return jsonify({"error": "No image data provided"}), 400
 
-        # Doctor brain analysis
+        logging.info(f"Running analysis for query: {query}")
         response = analyze_image_with_query(
-            query_text or "No text provided",
+            query,
             "meta-llama/llama-4-maverick-17b-128e-instruct",
-            image_base64
-        ) if image_base64 else query_text
-
-        return jsonify({
-            "speechText": query_text,
-            "response": response
-        })
+            image_base64,
+        )
+        return jsonify({"response": response})
 
     except Exception as e:
         logging.error(f"Error in /api/diagnose: {e}")
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/transcribe", methods=["POST"])
+def transcribe_audio():
+    """
+    Transcribe audio files sent as multipart/form-data.
+    """
+    if "file" not in request.files:
+        return jsonify({"error": "No audio file provided"}), 400
+
+    audio_file = request.files["file"]
+    logging.info(f"Received audio file: {audio_file.filename}")
+
+    try:
+        # Read bytes from FileStorage
+        audio_bytes = audio_file.read()
+        text = transcribe_with_groq(audio_bytes)
+        return jsonify({"text": text})
+    except Exception as e:
+        logging.error(f"Error transcribing audio: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# ---------------------------------------------------
+# Run server
+# ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
