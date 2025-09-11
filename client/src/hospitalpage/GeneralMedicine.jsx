@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Upload, Mic, Square, Trash2, Stethoscope } from "lucide-react";
+import { Mic, Square, Trash2, Stethoscope } from "lucide-react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 export default function GeneralMedicine() {
   const [audioFile, setAudioFile] = useState(null);
@@ -12,9 +14,37 @@ export default function GeneralMedicine() {
   const [recordedAudio, setRecordedAudio] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080";
+  // Resolve API base
+  const getApiBase = () => {
+    const fallback = "http://localhost:8080";
+    try {
+      if (
+        typeof import.meta !== "undefined" &&
+        import.meta.env &&
+        import.meta.env.VITE_API_URL
+      ) {
+        return import.meta.env.VITE_API_URL;
+      }
+    } catch {}
+    try {
+      if (
+        typeof process !== "undefined" &&
+        process.env &&
+        process.env.REACT_APP_API_URL
+      ) {
+        return process.env.REACT_APP_API_URL;
+      }
+    } catch {}
+    try {
+      if (typeof window !== "undefined" && window.__API_BASE__) {
+        return window.__API_BASE__;
+      }
+    } catch {}
+    return fallback;
+  };
 
-  // File -> base64
+  const API_BASE = getApiBase();
+
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -27,15 +57,12 @@ export default function GeneralMedicine() {
       reader.readAsDataURL(file);
     });
 
-  // 🎤 Start recording
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
       const chunks = [];
-
       recorder.ondataavailable = (e) => chunks.push(e.data);
-
       recorder.onstop = () => {
         const blob = new Blob(chunks, { type: "audio/mp3" });
         setRecordedAudio(blob);
@@ -43,7 +70,6 @@ export default function GeneralMedicine() {
           new File([blob], "recorded_voice.mp3", { type: "audio/mp3" })
         );
       };
-
       recorder.start();
       setMediaRecorder(recorder);
       setRecording(true);
@@ -53,7 +79,6 @@ export default function GeneralMedicine() {
     }
   };
 
-  // ⏹ Stop recording
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
@@ -61,7 +86,6 @@ export default function GeneralMedicine() {
     }
   };
 
-  // 🩺 Submit input to backend
   const handleSubmit = async () => {
     if (!textInput && !audioFile && !imageFile) {
       alert("Please provide some input (text, image or audio).");
@@ -74,7 +98,6 @@ export default function GeneralMedicine() {
 
     try {
       const formData = new FormData();
-
       if (audioFile) formData.append("file", audioFile);
       if (imageFile) {
         const base64 = await toBase64(imageFile);
@@ -111,6 +134,64 @@ export default function GeneralMedicine() {
     setRecordedAudio(null);
   };
 
+  const handleDownloadReport = async () => {
+    try {
+      const reportElement = document.getElementById("report-content");
+      if (!reportElement) return alert("No report content found");
+
+      if (imageFile) {
+        try {
+          const imgEl = reportElement.querySelector("img.report-image");
+          if (imgEl) {
+            const base64 = await toBase64(imageFile);
+            const mime = imageFile.type || "image/png";
+            imgEl.src = `data:${mime};base64,${base64}`;
+          }
+        } catch (e) {
+          console.warn("Could not attach image preview for PDF:", e);
+        }
+      }
+
+      const canvas = await html2canvas(reportElement, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(
+        `AI_Report_${new Date().toISOString().replace(/[:.]/g, "-")}.pdf`
+      );
+    } catch (error) {
+      console.error("PDF generation failed", error);
+      const textReport = `Report - ${new Date().toLocaleString()}
+
+Symptoms:
+${textInput || "-"}
+
+Speech Transcription:
+${speechText || "-"}
+
+Doctor Response:
+${doctorResponse || "-"}`;
+      const blob = new Blob([textReport], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `AI_Healthcare_Report_${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+  };
+
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
       <header className="bg-gray-800 p-5 text-center shadow-lg">
@@ -127,7 +208,7 @@ export default function GeneralMedicine() {
               Patient Inputs
             </h2>
 
-            {/* Audio Input */}
+            {/* Audio */}
             <div className="mb-6">
               <label className="block mb-2 text-sm font-medium">
                 Audio Input
@@ -149,7 +230,6 @@ export default function GeneralMedicine() {
                   </button>
                 )}
               </div>
-
               {recordedAudio && (
                 <audio controls className="mt-3 w-full">
                   <source
@@ -161,7 +241,7 @@ export default function GeneralMedicine() {
               )}
             </div>
 
-            {/* Image Upload */}
+            {/* Image */}
             <div className="mb-6">
               <label className="block mb-2 text-sm font-medium">
                 Upload Image
@@ -183,7 +263,7 @@ export default function GeneralMedicine() {
               )}
             </div>
 
-            {/* Symptoms Textarea */}
+            {/* Symptoms */}
             <div>
               <label className="block mb-2 text-sm font-medium">
                 Describe Symptoms
@@ -197,7 +277,7 @@ export default function GeneralMedicine() {
             </div>
           </section>
 
-          {/* AI Diagnosis */}
+          {/* Diagnosis */}
           <section className="bg-gray-800 rounded-2xl p-6 shadow-lg">
             <h2 className="text-xl font-semibold mb-5 border-b border-gray-700 pb-2">
               AI Diagnosis
@@ -223,6 +303,14 @@ export default function GeneralMedicine() {
                 {doctorResponse ||
                   "The doctor's response will appear here after analysis."}
               </div>
+              <div className="mt-4">
+                <button
+                  onClick={handleDownloadReport}
+                  className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold text-sm"
+                >
+                  Download Report
+                </button>
+              </div>
             </div>
           </section>
         </div>
@@ -242,6 +330,41 @@ export default function GeneralMedicine() {
           >
             <Trash2 size={18} /> Clear
           </button>
+        </div>
+
+        {/* Hidden report for PDF */}
+        <div
+          id="report-content"
+          style={{
+            position: "absolute",
+            left: -10000,
+            top: 0,
+            width: 794,
+            background: "#fff",
+            color: "#000",
+            padding: 20,
+          }}
+        >
+          <h2>AI Healthcare Report</h2>
+          <p>
+            <strong>Date:</strong> {new Date().toLocaleString()}
+          </p>
+          <p>
+            <strong>Symptoms:</strong> {textInput}
+          </p>
+          <p>
+            <strong>Speech Text:</strong> {speechText}
+          </p>
+          <p>
+            <strong>Doctor's Response:</strong> {doctorResponse}
+          </p>
+          {imageFile && (
+            <img
+              className="report-image"
+              alt="Uploaded"
+              style={{ maxWidth: "100%", marginTop: 8 }}
+            />
+          )}
         </div>
       </main>
 
