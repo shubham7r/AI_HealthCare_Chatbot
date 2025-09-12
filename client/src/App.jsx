@@ -18,8 +18,15 @@ import Sidebars from "./components/dashboards/Sidebars"; // ✅ Sidebars is insi
 import Promt from "./components/dashboards/Promt"; // ✅ Promt is inside the Dashboard folder 
 import AuthModal from "./components/AuthModal"; // ✅ AuthModal is not inside the Dashboard folder
 import GeneralMedicine from "./hospitalpage/GeneralMedicine";
+import Ayurveda from "./hospitalpage/Ayurveda";
 import LoginModal from "./components/LoginModal"; // ✅ LoginModal is not inside the Dashboard folder
 import  Contact from "./components/Contact";
+import Bones from "./hospitalpage/Bones";
+import MentalHealth from "./hospitalpage/MentalHealth";
+import Dermatology from "./hospitalpage/Dermatology";
+import Cardiology from "./hospitalpage/Cardiology";
+import Dental from "./hospitalpage/Dental";
+import Orthopedics from "./hospitalpage/Orthopedics"; 
 
 
 // ✅ Sidebar is not inside the Dashboard folder
@@ -31,6 +38,8 @@ function App() {
         <Navbar />
         <main className="flex-grow">
           <Routes>
+            <Route path="/hospitals/mental-health" element={<MentalHealth />} />
+            <Route path="/hospitals/dermatology" element={<Dermatology />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -43,6 +52,11 @@ function App() {
               path="/hospitals/general-medicine"
               element={<GeneralMedicine />}
             />
+            <Route path="/hospitals/ayurveda" element={<Ayurveda />} />
+            <Route path="/hospitals/cardiology" element={<Cardiology />} />
+            <Route path="/hospitals/dental" element={<Dental />} />
+            <Route path="/hospitals/orthopedics" element={<Orthopedics />} />
+            <Route path="/hospitals/bones" element={<Bones />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/aboutus" element={<Aboutus />} />
             <Route path="/card-section" element={<CardSection />} />
