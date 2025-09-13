@@ -1,15 +1,13 @@
-// src/components/HeroSection.jsx
 import React, { useRef, useEffect, useState } from "react";
-
 import VanillaTilt from "vanilla-tilt";
 import { ShieldCheck, CalendarDays, Clock3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import LoginModal from "../LoginModal"; 
+import LoginModal from "../auth/LoginModal"; // ✅ fixed path
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const tiltRef = useRef(null);
-  const [isLoginOpen, setIsLoginOpen] = useState(false); 
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   useEffect(() => {
     if (tiltRef.current) {
@@ -24,6 +22,7 @@ const HeroSection = () => {
 
   return (
     <div>
+      {/* Hero Banner */}
       <div className="w-full bg-gradient-to-r from-purple-100 via-purple-200 to-purple-300 pt-15 px-6 md:px-16 shadow-none">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 py-10">
           {/* Left: Text Content */}
@@ -40,12 +39,10 @@ const HeroSection = () => {
                 <ShieldCheck className="text-purple-600 w-5 h-5" />
                 <span>AI & Solutions</span>
               </div>
-
               <div className="flex items-center gap-3">
                 <CalendarDays className="text-purple-600 w-5 h-5" />
                 <span>Aug 26, 2025</span>
               </div>
-
               <div className="flex items-center gap-3">
                 <Clock3 className="text-purple-600 w-5 h-5" />
                 <span>6 mins read</span>
@@ -74,7 +71,7 @@ const HeroSection = () => {
               <img
                 src="https://static.vecteezy.com/system/resources/previews/054/587/264/non_2x/isolated-ai-chatbot-interaction-a-design-innovation-free-png.png"
                 alt="Healthcare Chatbot"
-                className="rounded-2xl w-[300px]  h-auto object-cover 
+                className="rounded-2xl w-[300px] h-auto object-cover 
                  shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] 
                  transition-all duration-300 hover:scale-105 hover:shadow-[0_30px_60px_rgba(8,_112,_184,_0.8)] 
                  cursor-pointer"
